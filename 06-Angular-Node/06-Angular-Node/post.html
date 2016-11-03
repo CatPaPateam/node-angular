@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="demo">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+</head>
+<body ng-controller="one">
+
+<section class="panel panel-primary" >
+    <div class="panel-heading">
+        <a class="panel-title">用户登录</a>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-4 control-label">用户名：</label>
+                <div class="col-md-6">
+                    <input type="text" ng-model="userInfo.userName" class="form-control" placeholder="请输入用户名!">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">密码：</label>
+                <div class="col-md-6">
+                    <input type="password" ng-model="userInfo.pass" class="form-control" placeholder="*********">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-6">
+                    <a class="btn btn-primary" ng-click="userLogin()">用户登录</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-footer" ></div>
+</section>
+
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    (function(){
+        angular.module("demo",[])
+                .controller("one",function($scope,$http){
+
+                    $scope.userInfo = {
+
+                    };
+
+                    $scope.userLogin =function(){
+                        $http({
+                            url:"http://localhost:3000/testp",
+                            method:"POST",
+                            data:$scope.userInfo,
+                            headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+                            transformRequest: function(obj) {
+                                var str = [];
+                                for(var p in obj){
+                                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                                }
+                                return str.join("&");
+                            }
+                        }).success(function(data){
+
+                            if(data.code == 300){
+                                alert("用户名或者密码错误!");
+                            }else {
+                                alert("ok");
+                            }
+                            $scope.datalist = data;
+                        })
+                    }
+                })
+
+    })()
+</script>
+</body>
+</html>

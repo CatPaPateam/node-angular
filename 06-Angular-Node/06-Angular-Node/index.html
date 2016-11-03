@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="demo">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="../libs/bootstrap/dist/css/bootstrap.css">
+</head>
+<body ng-controller="one">
+
+<div class="list-group">
+    <div class="list-group-item" ng-repeat="n in datalist">{{n.title}}</div>
+</div>
+
+<script src="../libs/angular/angular.js"></script>
+<script>
+    (function(){
+        angular.module("demo",[])
+                .controller("one",function($scope,$http){
+
+                    $http({
+                        url:"http://localhost:3000/test",
+                        method:"GET"
+                    }).success(function(data){
+                        console.log(data);
+                        $scope.datalist = data;
+                    })
+                })
+
+    })()
+</script>
+</body>
+</html>
